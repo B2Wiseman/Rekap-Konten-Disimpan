@@ -63,6 +63,11 @@ function render(){
 }
 function setMessage(msg,isError=false){$("message").textContent=msg;$("message").className="message"+(isError?" error":"");}
 function loadData(showMessage=false){
+  if (typeof google === "undefined" || !google.script || !google.script.run) {
+    setMessage("Halaman harus dibuka melalui URL Web App Apps Script (/exec), bukan file HTML lokal.", true);
+    $("tbody").innerHTML='<tr><td colspan="7" class="empty">Buka URL Web App Apps Script untuk memuat data.</td></tr>';
+    return;
+  }
   $("refresh").disabled=true;
   google.script.run.withSuccessHandler(result=>{
     DATA=result.rows||[];
